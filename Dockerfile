@@ -19,6 +19,7 @@ WORKDIR /ghidra
 
 COPY entrypoint.sh /entrypoint.sh
 COPY server.conf /ghidra/server/server.conf
+COPY jaas.conf /ghidra/server/jaas.conf
 
 EXPOSE 13100 13101 13102
 

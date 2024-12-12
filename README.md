@@ -6,55 +6,34 @@
 
 Standing up a Ghidra Server in the cloud is a pain. It doesn't have to be. If you're new to Ghidra Server, [this primer](https://byte.how/posts/collaborative-reverse-engineering/) is a good introduction.
 
-## Images
-
-```bash
-bytehow/ghidra-server   latest
-bytehow/ghidra-server   11.0.3
-bytehow/ghidra-server   10.3
-bytehow/ghidra-server   10.2.2
-bytehow/ghidra-server   10.1.5
-bytehow/ghidra-server   9.2      
-bytehow/ghidra-server   9.1.2    
-```
-
-If you'd like to use the latest from [Ghidra's master branch](https://github.com/NationalSecurityAgency/ghidra), build an image using `Dockerfile.beta`.
-
 ## Getting Started
 
 Start the server and connect to port 13100 with a Ghidra client that has a **matching** version. All users will be created as admins and will have initial password `changeme`, which Ghidra will require you to change after you login.
 
+## Building
 
-
-### Public Server
-
-```bash
-docker run -it --rm \
-    --name ghidra-server \
-    -e GHIDRA_USERS="admin bytehow" \
-    -v /path/to/repos:/repos \
-    -p 13100-13102:13100-13102 \
-    bytehow/ghidra-server
-```
-
-### Local-only Server
+Note: Make sure to adjust the LDAP configuration inside the jaas.config file as needed.
 
 ```bash
-docker run -it --rm \
-    --name ghidra-server \
-    -e GHIDRA_USERS="admin bytehow" \
-    -e GHIDRA_PUBLIC_HOSTNAME="0.0.0.0" \
-    -v /path/to/repos:/repos \
-    -p 13100-13102:13100-13102 \
-    bytehow/ghidra-server
+git clone --branch LDAP https://github.com/Corax34/docker-ghidra-server.git
+cd docker-ghidra-server
+docker build -t local-image-11.2.1 .
 ```
 
+### Run Public Server
+
+```bash
+docker run -it \
+    --name ghidra-server \
+    -v ghidra_repos_volume:/repos \
+    -p 13100-13102:13100-13102 \
+    local-image-11.2.1
+```
 
 ## Environment Variables
 
 | Name | Description | Required | Default |
 | - | - | - | - |
-|`GHIDRA_USERS` | Space seperated list of users to create | No | `admin` |
 |`GHIDRA_PUBLIC_HOSTNAME` | IP or hostname that remote users will use to connect to server. Set to `0.0.0.0` if hosting locally. If not set, it will try to discover your public ip by querying OpenDNS | No | Your public IP | 
 
 ## Additional information
