@@ -6,10 +6,6 @@
 
 Standing up a Ghidra Server in the cloud is a pain. It doesn't have to be. If you're new to Ghidra Server, [this primer](https://byte.how/posts/collaborative-reverse-engineering/) is a good introduction.
 
-## Getting Started
-
-Start the server and connect to port 13100 with a Ghidra client that has a **matching** version. All users will be created as admins and will have initial password `changeme`, which Ghidra will require you to change after you login.
-
 ## Building
 
 Note: Make sure to adjust the LDAP configuration inside the jaas.config file as needed.
